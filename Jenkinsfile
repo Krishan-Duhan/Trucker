@@ -18,7 +18,11 @@ node {
     }
 
     stage("docker push"){
-        sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_VERSION}"
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: '', usernameVariable: '')]) {
+            // some block
+            sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_VERSION}"
+        }
+
     }
 
     stage("docker service"){
